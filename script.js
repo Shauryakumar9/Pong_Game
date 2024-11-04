@@ -27,6 +27,8 @@ let pastBallDirection;
 //game is later used to define an interval
 let game;
 let interval2;
+let aiInterval;
+let gamemode;
 //a,b,d,e tell which paddel are moving
 let a;
 let b;
@@ -97,6 +99,7 @@ function init() {
   b = undefined;
   d = undefined;
   e = undefined;
+  gamemode = undefined;
 }
 //creates board
 function board1(y) {
@@ -182,7 +185,7 @@ function moveBall(n) {
   }
 }
 //if movement key is pressed allows for movement
-function control() {
+let control = function () {
   document.addEventListener("keydown", (e) => {
     if (e.key === "ArrowUp") d = 1;
   });
@@ -195,23 +198,23 @@ function control() {
   document.addEventListener("keyup", (s) => {
     if (s.key === "ArrowDown") e = undefined;
   });
-}
+};
 //defines computer movement for singleplayer
-function ai() {
-  setInterval(() => {
+let ai = function () {
+  aiInterval = setInterval(() => {
     if (ballY < y2 * 3 + 34.5 && y2 > 0) {
       y2--;
     } else if (ballY > y2 * 3 + 34.5 && y2 * 3 + 70 < height) {
       y2++;
     }
   }, 15);
-}
+};
 //changes paddel y cords according to button press
 function movePaddel() {
   if (a && y1 > 0) y1--;
   if (b && y1 * 3 + 70 < height) y1++;
-  if (d && y2 > 0) y2--;
-  if (e && y2 * 3 + 70 < height) y2++;
+  if (d && y2 > 0 && gamemode === "multiplayer") y2--;
+  if (e && y2 * 3 + 70 < height && gamemode === "multiplayer") y2++;
 }
 //same task as control function but for left paddel
 document.addEventListener("keydown", (e) => {
@@ -232,6 +235,7 @@ document.querySelector(".multiplayer").addEventListener("click", () => {
   document.querySelector(".reset").classList.remove("hide");
   home.classList.add("hide");
   init();
+  gamemode = "multiplayer";
   game = setInterval(update);
   interval2 = setInterval(movePaddel, 10);
   document.querySelector(
@@ -245,7 +249,6 @@ document.querySelector(".singleplayer").addEventListener("click", () => {
   document.querySelector(".reset").classList.remove("hide");
   home.classList.add("hide");
   init();
-
   game = setInterval(update);
   interval2 = setInterval(movePaddel, 10);
   document.querySelector(".info").innerHTML =
@@ -265,6 +268,6 @@ document.addEventListener("keydown", (e) => {
     document.querySelector(".info").innerHTML = "";
     clearInterval(game);
     clearInterval(interval2);
-    window.clearInterval();
+    clearInterval(aiInterval);
   }
 });
