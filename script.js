@@ -99,7 +99,6 @@ function init() {
   b = undefined;
   d = undefined;
   e = undefined;
-  gamemode = undefined;
 }
 //creates board
 function board1(y) {
@@ -269,5 +268,6 @@ document.addEventListener("keydown", (e) => {
     clearInterval(game);
     clearInterval(interval2);
     clearInterval(aiInterval);
+    gamemode = undefined;
   }
 });
