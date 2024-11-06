@@ -199,9 +199,9 @@ let control = function () {
 //defines computer movement for singleplayer
 let ai = function () {
   aiInterval = setInterval(() => {
-    if (ballY < y2 * 3 + 34.5 && y2 > 0) {
+    if (ballY < y2 * 3 + 35 && y2 > 0) {
       y2--;
-    } else if (ballY > y2 * 3 + 34.5 && y2 * 3 + 70 < height) {
+    } else if (ballY > y2 * 3 + 35 && y2 * 3 + 70 < height) {
       y2++;
     }
   }, 15);
