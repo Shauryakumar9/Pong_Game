@@ -34,6 +34,21 @@ let a;
 let b;
 let d;
 let e;
+//intial function
+function init() {
+  y1 = 10;
+  y2 = 10;
+  score1 = 0;
+  score2 = 0;
+  ballX = (width - 1) / 2;
+  ballY = Math.floor(Math.random() * (height - 24)) + 12;
+  ballDirection = 1;
+  pastBallDirection = 1;
+  a = undefined;
+  b = undefined;
+  d = undefined;
+  e = undefined;
+}
 //function to update canvas every 4ms to show change
 function update() {
   let arr1 = [];
@@ -65,7 +80,7 @@ function update() {
   }
   //checks for collision of ball with anything and assigns respective balldirection
   if (
-    ballX + 10.5 === width - 34 &&
+    ballX + 11 === width - 34 &&
     (arr2.includes(ballY) || arr2.includes(ballY + 11))
   ) {
     pastBallDirection = ballDirection;
@@ -74,7 +89,7 @@ function update() {
     pastBallDirection = ballDirection;
     ballDirection = 5;
   } else if (
-    ballX === 29.5 &&
+    ballX === 32 &&
     (arr1.includes(ballY) || arr1.includes(ballY + 11))
   ) {
     pastBallDirection = ballDirection;
@@ -86,20 +101,7 @@ function update() {
   //changes the cord of the ball depending on the ball direction
   moveBall(1);
 }
-function init() {
-  y1 = 10;
-  y2 = 10;
-  score1 = 0;
-  score2 = 0;
-  ballX = width / 2;
-  ballY = Math.floor(Math.random() * (height - 24)) + 12;
-  ballDirection = 1;
-  pastBallDirection = 1;
-  a = undefined;
-  b = undefined;
-  d = undefined;
-  e = undefined;
-}
+
 //creates board
 function board1(y) {
   c.fillStyle = "lightgrey";
@@ -122,7 +124,7 @@ function ball() {
 }
 // returns the ball to center x at random y after ball is out of bound
 function ballOutOfBounds(x) {
-  ballX = width / 2;
+  ballX = (width - 1) / 2;
   ballY = 55;
   ballY = Math.trunc(Math.random() * height - 12);
   ballDirection = 1;
@@ -185,17 +187,13 @@ function moveBall(n) {
 }
 //if movement key is pressed allows for movement
 let control = function () {
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowUp") d = 1;
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowUp") d = 1;
+    if (event.key === "ArrowDown") e = 1;
   });
-  document.addEventListener("keyup", (e) => {
-    if (e.key === "ArrowUp") d = undefined;
-  });
-  document.addEventListener("keydown", (s) => {
-    if (s.key === "ArrowDown") e = 1;
-  });
-  document.addEventListener("keyup", (s) => {
-    if (s.key === "ArrowDown") e = undefined;
+  document.addEventListener("keyup", (event) => {
+    if (event.key === "ArrowUp") d = undefined;
+    if (event.key === "ArrowDown") e = undefined;
   });
 };
 //defines computer movement for singleplayer
@@ -218,16 +216,13 @@ function movePaddel() {
 //same task as control function but for left paddel
 document.addEventListener("keydown", (e) => {
   if (e.key === "w") a = 1;
-});
-document.addEventListener("keyup", (e) => {
-  if (e.key === "w") a = undefined;
-});
-document.addEventListener("keydown", (e) => {
   if (e.key === "s") b = 1;
 });
 document.addEventListener("keyup", (e) => {
+  if (e.key === "w") a = undefined;
   if (e.key === "s") b = undefined;
 });
+
 //if clicked on multiplayer starts multiplayer game
 document.querySelector(".multiplayer").addEventListener("click", () => {
   canvas.classList.remove("hide");
