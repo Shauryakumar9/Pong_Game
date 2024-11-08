@@ -9,14 +9,24 @@
   <body>
     <h1>Ping Pong</h1>
     <div class="home">
-      <h1>Welcome to Pong</h1>
-      <button class="singleplayer">Single Player</button
-      ><button class="multiplayer">Multiplayer</button>
-      <span class="credits"> Developed by : Shaurya Kumar</span>
+      <div class="main">
+        <h1>Welcome to Pong</h1>
+        <button class="singleplayer">Single Player</button
+        ><button class="multiplayer">Multiplayer</button>
+        <span class="credits"> Developed by : Shaurya Kumar</span>
+      </div>
+      <div class="info"></div>
+      <div class="option hide">
+        Choose a medium:
+        <button class="keyboard">Keyboard</button>
+        <button class="mouse">Mouse</button>
+      </div>
     </div>
     <canvas id="canvas" class="hide"></canvas>
-    <div class="info"></div>
-    <button class="reset hide">Reset</button>
+
+    <div>
+      <button class="reset hide">Reset</button>
+    </div>
 
     <script src="script.js"></script>
   </body>

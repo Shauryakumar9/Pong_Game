@@ -102,6 +102,8 @@ function update() {
   moveBall(1);
 }
 
+//////////////////////////////////////////////////////////////////////
+//drawing ball and board and ball function below
 //creates board
 function board1(y) {
   c.fillStyle = "lightgrey";
@@ -109,7 +111,6 @@ function board1(y) {
 }
 function board2(y) {
   c.fillStyle = "lightgrey";
-  // c.fillRect(463, y * 5, 10, 70);
   c.fillRect(width - 37, y * 3, 10, 70);
 }
 function score(s, x, y) {
@@ -185,8 +186,11 @@ function moveBall(n) {
     }
   }
 }
+
+/////////////////////////////////////////////////////////////////////
+//all the movement paddle movement functions below
 //if movement key is pressed allows for movement
-let control = function () {
+const control = function () {
   document.addEventListener("keydown", (event) => {
     if (event.key === "ArrowUp") d = 1;
     if (event.key === "ArrowDown") e = 1;
@@ -197,7 +201,7 @@ let control = function () {
   });
 };
 //defines computer movement for singleplayer
-let ai = function () {
+const ai = function () {
   aiInterval = setInterval(() => {
     if (ballY < y2 * 3 + 35 && y2 > 0) {
       y2--;
@@ -213,16 +217,28 @@ function movePaddel() {
   if (d && y2 > 0 && gamemode === "multiplayer") y2--;
   if (e && y2 * 3 + 70 < height && gamemode === "multiplayer") y2++;
 }
-//same task as control function but for left paddel
+// same task as control function but for left paddel
 document.addEventListener("keydown", (e) => {
-  if (e.key === "w") a = 1;
-  if (e.key === "s") b = 1;
+  if (gamemode === "multiplayer" || gamemode === "keyboard") {
+    if (e.key === "w") a = 1;
+    if (e.key === "s") b = 1;
+  }
 });
 document.addEventListener("keyup", (e) => {
-  if (e.key === "w") a = undefined;
-  if (e.key === "s") b = undefined;
+  if (gamemode === "multiplayer" || gamemode === "keyboard") {
+    if (e.key === "w") a = undefined;
+    if (e.key === "s") b = undefined;
+  }
+});
+//defines the movement by mouse
+canvas.addEventListener("mousemove", (e) => {
+  if (e.clientY - 7 <= height && gamemode === "mouse")
+    y1 = (e.clientY - 77) / 3;
 });
 
+////////////////////////////////////////////////////////////////////////////////////
+
+//all the buttons the main menu below
 //if clicked on multiplayer starts multiplayer game
 document.querySelector(".multiplayer").addEventListener("click", () => {
   canvas.classList.remove("hide");
@@ -239,10 +255,28 @@ document.querySelector(".multiplayer").addEventListener("click", () => {
 });
 //if clicked singleplayer starts singleplayer game
 document.querySelector(".singleplayer").addEventListener("click", () => {
+  document.querySelector(".main").classList.add("hide");
+  document.querySelector(".option").classList.remove("hide");
+});
+document.querySelector(".keyboard").addEventListener("click", () => {
   canvas.classList.remove("hide");
   document.querySelector(".reset").classList.remove("hide");
   home.classList.add("hide");
   init();
+  gamemode = "keyboard";
+  game = setInterval(update);
+  interval2 = setInterval(movePaddel, 10);
+  document.querySelector(".info").innerHTML =
+    "Use W and S keys to move the paddle <br> Press Esc to exit";
+  ai();
+});
+document.querySelector(".mouse").addEventListener("click", () => {
+  canvas.classList.remove("hide");
+  document.querySelector(".reset").classList.remove("hide");
+  home.classList.add("hide");
+  init();
+  gamemode = "mouse";
+  canvas.classList.add("noCursor");
   game = setInterval(update);
   interval2 = setInterval(movePaddel, 10);
   document.querySelector(".info").innerHTML =
@@ -257,6 +291,8 @@ document.querySelector(".reset").addEventListener("click", () => {
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
     home.classList.remove("hide");
+    document.querySelector(".main").classList.remove("hide");
+    document.querySelector(".option").classList.add("hide");
     canvas.classList.add("hide");
     document.querySelector(".reset").classList.add("hide");
     document.querySelector(".info").innerHTML = "";
@@ -264,5 +300,6 @@ document.addEventListener("keydown", (e) => {
     clearInterval(interval2);
     clearInterval(aiInterval);
     gamemode = undefined;
+    canvas.classList.remove("noCursor");
   }
 });

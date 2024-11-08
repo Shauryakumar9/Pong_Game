@@ -16,6 +16,9 @@ body {
   height: 375px;
   width: 675px;
   color: lightgrey;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 h1 {
   margin: 20px;
@@ -44,11 +47,27 @@ button:hover {
 }
 .credits {
   position: relative;
-  top: 90px;
 }
 .reset {
   width: auto;
   background-color: black;
   color: white;
   margin-top: 12px;
+}
+/* .singleplayer {
+  display: block;
+}
+.multiplayer {
+  display: block;
+} */
+
+.opiton {
+  justify-content: center;
+  align-items: center;
+}
+.a {
+  margin: auto;
+}
+.noCursor {
+  cursor: none;
 }
